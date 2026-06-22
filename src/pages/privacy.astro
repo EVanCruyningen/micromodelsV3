@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy"
+  description="How micromodels handles (or rather, doesn't handle) your data."
+  currentPath="/privacy/"
+>
+  <article>
+    <header>
+      <h1>Privacy</h1>
+      <p class="post-description">
+        Last updated: 2026-06-22. Short version: we collect nothing about you.
+      </p>
+    </header>
+
+    <div class="prose">
+      <p>
+        This site is built around a simple principle: <strong>we don't want your data,
+        and we have no way to get it.</strong> Everything below is a precise description
+        of what that means in practice.
+      </p>
+
+      <h2>What we don't do</h2>
+      <ul>
+        <li><strong>No analytics.</strong> No Google Analytics, no Plausible, no Fathom, no Cloudflare Web Analytics, no self-hosted anything. We have no idea how many people visit, what they read, or where they came from.</li>
+        <li><strong>No cookies.</strong> We don't set any, including the kind that require a banner.</li>
+        <li><strong>No tracking pixels, fingerprinting, or third-party requests of any kind.</strong> The site loads no external scripts at runtime.</li>
+        <li><strong>No fonts from third parties.</strong> All text uses your operating system's built-in font stack. No Google Fonts, no Adobe Fonts, no font CDN.</li>
+        <li><strong>No comments, accounts, or forms.</strong> You can't submit anything to us, so we can't store it.</li>
+        <li><strong>No newsletter or email collection.</strong> If we ever add one, this page will change and we'll mention it on the homepage.</li>
+      </ul>
+
+      <h2>What we do host ourselves</h2>
+      <ul>
+        <li>Static HTML, CSS, and image assets — all served directly from Cloudflare's CDN. Zero JavaScript is shipped to your browser.</li>
+        <li>Mathematical notation rendered with KaTeX. The KaTeX fonts and CSS are bundled into the site at build time and served from the same origin.</li>
+        <li>Syntax highlighting in code blocks is generated at build time via Shiki. It produces static HTML with no client-side highlighting logic.</li>
+      </ul>
+
+      <h2>What your browser does when you visit</h2>
+      <p>
+        When you load any page on this site, your browser makes a single request to
+        our server (Cloudflare's edge) and receives a static HTML file plus a CSS
+        file and some font files — all from the same domain. That's it. No
+        cross-origin requests, no third-party hosts, no beacons.
+      </p>
+      <p>
+        You can verify this yourself with your browser's DevTools Network tab. If
+        you see any request to a domain that isn't <code>micromodels.com</code> (or
+        whichever domain this site is served from), that's a bug and we want to
+        hear about it.
+      </p>
+
+      <h2>Outbound links</h2>
+      <p>
+        News entries link out to original sources — arxiv.org, anthropic.com,
+        openai.com, and similar. When you click those links, you leave this site
+        and become subject to <em>their</em> privacy policies, not ours. We have
+        no control over what those sites collect. If you're following a link to
+        read a paper or a primary source, expect the same kind of tracking you'd
+        encounter anywhere else on the open web.
+      </p>
+
+      <h2>Server logs</h2>
+      <p>
+        Cloudflare's edge network logs requests for operational and security
+        purposes (DDoS protection, abuse handling, cache performance). Those logs
+        are held by Cloudflare under <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">their privacy policy</a>,
+        not ours. We don't have access to them. We don't run our own origin
+        server, so we don't generate any logs of our own.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If we ever change anything material about how this site handles your
+        data — for example, if we add analytics or a comments system — we'll
+        update this page and note the change at the top with a new date. We
+        won't add tracking silently.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        If you have questions about this policy, find a bug, or want to report
+        a privacy concern, the best way to reach us is via the GitHub link in
+        the site footer.
+      </p>
+
+      <p style="margin-top: 2em; color: var(--color-muted); font-size: 0.95rem;">
+        This policy is intentionally short. If something here is unclear or
+        incomplete, that's a defect worth fixing.
+      </p>
+    </div>
+
+    <nav class="back-nav">
+      <a href="/">&larr; Back home</a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-description {
+    color: var(--color-muted);
+    font-size: 1.05rem;
+    margin-top: 12px;
+  }
+
+  .back-nav {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Override .prose defaults slightly for the privacy page's reading width */
+  .prose :global(strong) {
+    color: var(--color-fg);
+  }
+</style>
