@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsCard from '../../components/NewsCard.astro';
+
+const allNews = await getCollection('news');
+const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="News" description="Short notes on papers, posts, and releases." currentPath="/news/">
+  <h1>News</h1>
+  <p style="color: var(--color-muted); margin-bottom: 24px;">Short notes on papers, posts, and releases that caught my eye.</p>
+
+  {
+    sortedNews.map((entry) => (
+      <NewsCard
+        title={entry.data.title}
+        href={`/news/${entry.id}/`}
+        date={entry.data.date.toISOString().split('T')[0]}
+        sourceLabel={entry.data.sourceLabel}
+        sourceUrl={entry.data.sourceUrl}
+        tags={entry.data.tags}
+      />
+    ))
+  }
+</BaseLayout>

@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { readingTime } from '../utils/readingTime';
+
+const allBlog = await getCollection('blog');
+const allNews = await getCollection('news');
+
+const sortedBlog = allBlog.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 5);
+const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 5);
+---
+
+<BaseLayout title="micromodels" description="Perspectives on AI/ML from the trenches." currentPath="/">
+  <section class="intro">
+    <h1>micromodels</h1>
+    <p>Perspectives on AI/ML from the trenches.</p>
+    <p class="byline">
+      by <span style="color: var(--color-fg)">[your name]</span>
+      &middot;
+      <a href="https://github.com/EVanCruyningen" target="_blank" rel="noopener noreferrer">github.com/EVanCruyningen</a>
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">Latest News</div>
+    {
+      sortedNews.map((entry) => (
+        <PostCard
+          title={entry.data.title}
+          href={`/news/${entry.id}/`}
+          meta={`${entry.data.date.toISOString().split('T')[0]} · ${entry.data.sourceLabel}`}
+          excerpt={entry.body}
+        />
+      ))
+    }
+  </section>
+
+  <section class="section">
+    <div class="section-head">Latest Blog Posts</div>
+    {
+      sortedBlog.map((entry) => (
+        <PostCard
+          title={entry.data.title}
+          href={`/blog/${entry.id}/`}
+          meta={`${entry.data.date.toISOString().split('T')[0]} · ${readingTime(entry.body)}`}
+          excerpt={entry.data.description}
+        />
+      ))
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    margin-bottom: 48px;
+  }
+
+  .intro h1 {
+    margin-bottom: 0.3em;
+  }
+
+  .intro p {
+    color: var(--color-muted);
+    font-size: 1.05rem;
+  }
+
+  .byline {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-muted);
+    margin-top: 8px;
+  }
+
+  .byline a {
+    color: var(--color-muted);
+  }
+
+  .byline a:hover {
+    color: var(--color-accent);
+  }
+
+  .section {
+    margin-top: 48px;
+  }
+</style>

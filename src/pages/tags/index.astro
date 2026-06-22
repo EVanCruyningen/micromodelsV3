@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const allBlog = await getCollection('blog');
+const allNews = await getCollection('news');
+
+const tagCounts = new Map<string, number>();
+
+for (const entry of allBlog) {
+  for (const tag of entry.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+  }
+}
+
+for (const entry of allNews) {
+  for (const tag of entry.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+  }
+}
+
+const sortedTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Tags" description="All tags used across blog posts and news." currentPath="/tags/">
+  <h1>Tags</h1>
+
+  <ul class="tag-list">
+    {
+      sortedTags.map(([tag, count]) => (
+        <li>
+          <a href={`/blog/tags/${tag}/`}>{tag}</a>
+          <span class="tag-count">{count}</span>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

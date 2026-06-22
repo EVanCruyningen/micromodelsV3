@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagChip from '../../components/TagChip.astro';
+import { readingTime } from '../../utils/readingTime';
+
+const allBlog = await getCollection('blog');
+const sortedBlog = allBlog.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Blog" description="Long-form notes on AI/ML practice." currentPath="/blog/">
+  <h1>Blog</h1>
+  <p style="color: var(--color-muted); margin-bottom: 24px;">Long-form notes on AI/ML practice.</p>
+
+  {
+    sortedBlog.map((entry) => (
+      <article>
+        <a href={`/blog/${entry.id}/`} style="text-decoration: none;">
+          <h2 style="margin-bottom: 4px;">{entry.data.title}</h2>
+        </a>
+        <div class="post-meta">
+          {entry.data.date.toISOString().split('T')[0]} &middot; {readingTime(entry.body)}
+        </div>
+        <div class="chips">
+          {entry.data.tags.map((tag) => <TagChip tag={tag} />)}
+        </div>
+        {
+          entry.data.series && (
+            <p style="color: var(--color-muted); margin-top: 10px;">
+              Part of the <a href={`/blog/series/${entry.data.series}/`}>{entry.data.series}</a> series.
+            </p>
+          )
+        }
+      </article>
+    ))
+  }
+</BaseLayout>
+
+<style>
+  article {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  article:last-of-type {
+    border-bottom: 0;
+  }
+
+  .post-meta {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-muted);
+    margin-bottom: 8px;
+  }
+</style>

@@ -1,0 +1,131 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagChip from '../../components/TagChip.astro';
+import { readingTime } from '../../utils/readingTime';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+// Fetch related news entries
+let relatedNews: { id: string; data: { title: string } }[] = [];
+if (entry.data.relatedNews.length > 0) {
+  const allNews = await getCollection('news');
+  relatedNews = allNews
+    .filter((n) => entry.data.relatedNews.includes(n.id))
+    .map((n) => ({ id: n.id, data: { title: n.data.title } }));
+}
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  currentPath="/blog/"
+  ogType="article"
+>
+  <article>
+    <header>
+      <div class="post-meta">
+        {entry.data.date.toISOString().split('T')[0]}
+        &middot; {readingTime(entry.body)}
+        {entry.data.series && (
+          <> &middot; in the <a href={`/blog/series/${entry.data.series}/`}>{entry.data.series}</a> series</>
+        )}
+      </div>
+      <h1>{entry.data.title}</h1>
+      <p class="post-description">{entry.data.description}</p>
+      <div class="chips">
+        {entry.data.tags.map((tag) => <TagChip tag={tag} />)}
+      </div>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      relatedNews.length > 0 && (
+        <nav class="related-nav">
+          <h3>Related News</h3>
+          <ul>
+            {relatedNews.map((n) => (
+              <li><a href={`/news/${n.id}/`}>{n.data.title}</a></li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+
+    <nav class="back-nav">
+      <a href="/blog/">&larr; All blog posts</a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-meta {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-muted);
+    margin-bottom: 8px;
+  }
+
+  .post-meta a {
+    color: var(--color-muted);
+  }
+
+  .post-meta a:hover {
+    color: var(--color-accent);
+  }
+
+  .post-description {
+    color: var(--color-muted);
+    font-size: 1.05rem;
+    margin-top: 12px;
+  }
+
+  .back-nav {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related-nav {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related-nav h3 {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+
+  .related-nav ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .related-nav li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .related-nav li:last-child {
+    border-bottom: 0;
+  }
+</style>
