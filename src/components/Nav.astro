@@ -1,0 +1,87 @@
+---
+export interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '' } = Astro.props;
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/news/', label: 'News' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/tags/', label: 'Tags' },
+  { href: 'https://github.com/EVanCruyningen', label: 'GitHub ↗', external: true },
+];
+---
+
+<header class="site-header">
+  <div class="nav">
+    <a class="nav-title" href="/">micromodels</a>
+    <nav class="nav-links" aria-label="Primary">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            {...(currentPath === link.href ? { 'aria-current': 'page' } : {})}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .nav {
+    max-width: var(--container-content);
+    margin: 0 auto;
+    padding: 18px 20px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .nav-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .nav-title:hover {
+    color: var(--color-accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: var(--color-fg);
+  }
+
+  .nav-links a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .nav-links a[aria-current="page"] {
+    color: var(--color-accent);
+  }
+</style>

@@ -1,0 +1,16 @@
+---
+export interface Props {
+  tag: string;
+  link?: boolean;
+}
+
+const { tag, link = true } = Astro.props;
+---
+
+{
+  link ? (
+    <a class="chip" href={`/blog/tags/${tag}/`}>{tag}</a>
+  ) : (
+    <span class="chip">{tag}</span>
+  )
+}

@@ -1,0 +1,16 @@
+---
+export interface Props {
+  title: string;
+  href: string;
+  meta: string;
+  excerpt: string;
+}
+
+const { title, href, meta, excerpt } = Astro.props;
+---
+
+<a class="entry" href={href}>
+  <div class="entry-title">{title}</div>
+  <div class="entry-meta">{meta}</div>
+  <div class="entry-excerpt">{excerpt}</div>
+</a>
