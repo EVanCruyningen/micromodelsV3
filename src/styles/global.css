@@ -1,0 +1,328 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #FCF4DC;
+  --color-surface: #FCF4DC;
+  --color-fg: #1A1A1A;
+  --color-muted: #5A5040;
+  --color-border: #E4D9B8;
+  --color-accent: #8B5A2B;
+  --color-code-bg: #F5EBC8;
+
+  --font-display: Charter, "Iowan Old Style", "Source Serif Pro", Georgia, serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --container-content: 720px;
+}
+
+/* Base layer */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--color-fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--color-accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--color-fg);
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2.4rem;
+  margin: 0 0 0.6em;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin: 1.8em 0 0.5em;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin: 1.4em 0 0.4em;
+}
+
+p {
+  margin: 0 0 1.1em;
+}
+
+/* Skip link */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-fg);
+  color: var(--color-bg);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip:focus {
+  left: 12px;
+  top: 12px;
+}
+
+/* Prose */
+.prose h2 {
+  margin-top: 1.8em;
+}
+
+.prose h3 {
+  margin-top: 1.5em;
+}
+
+.prose p {
+  margin: 0 0 1.1em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+  margin: 0 0 1.1em;
+}
+
+.prose li {
+  margin-bottom: 0.3em;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-border);
+  padding: 4px 0 4px 16px;
+  margin: 1.2em 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: rgba(139, 90, 43, 0.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  background: #F5EBC8;
+  border: 1px solid var(--color-border);
+  padding: 14px 16px;
+  overflow-x: auto;
+  border-radius: 4px;
+  margin: 1.2em 0;
+}
+
+.prose pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* Shiki syntax tokens (build-time highlighter output) */
+.prose pre .tok-key {
+  color: #8B5A2B;
+}
+
+.prose pre .tok-str {
+  color: #5A5040;
+}
+
+.prose pre .tok-com {
+  color: #8a7d5f;
+  font-style: italic;
+}
+
+.prose pre .tok-num {
+  color: #6b4423;
+}
+
+.prose pre .tok-fn {
+  color: #6b4423;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: 2em 0;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border);
+}
+
+/* KaTeX CSS imported from node_modules via @import */
+@import 'katex/dist/katex.css' layer(base);
+
+/* Entry cards */
+.entry {
+  display: block;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+  text-decoration: none;
+  color: var(--color-fg);
+}
+
+.entry:last-child {
+  border-bottom: 0;
+}
+
+.entry:hover .entry-title {
+  color: var(--color-accent);
+}
+
+.entry-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.entry-meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-bottom: 6px;
+}
+
+.entry-excerpt {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+/* Section headers */
+.section-head {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+/* Tag chips */
+.chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+
+.chip:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* Tag list (tags overview page) */
+.tag-list {
+  list-style: none;
+  padding: 0;
+}
+
+.tag-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.tag-list li:last-child {
+  border-bottom: 0;
+}
+
+.tag-list a {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.tag-count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+/* Source link */
+.source-link {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+/* Dark mode stub (V2) */
+@media (prefers-color-scheme: dark) {
+  /* TODO V2: dark sepia tokens */
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  body {
+    font-size: 17px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  main {
+    padding: 28px 16px 60px;
+  }
+}
