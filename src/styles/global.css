@@ -312,17 +312,4 @@ p {
   /* TODO V2: dark sepia tokens */
 }
 
-/* Responsive */
-@media (max-width: 520px) {
-  body {
-    font-size: 17px;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  main {
-    padding: 28px 16px 60px;
-  }
-}
+/* Note: main element styling moved to BaseLayout.astro's .main-inner for scoped centering. */

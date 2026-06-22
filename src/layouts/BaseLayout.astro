@@ -34,8 +34,34 @@ const fullTitle = title === 'micromodels' ? title : `${title} · micromodels`;
     <a class="skip" href="#main">Skip to content</a>
     <Nav currentPath={currentPath} />
     <main id="main">
-      <slot />
+      <div class="main-inner">
+        <slot />
+      </div>
     </main>
     <Footer />
   </body>
 </html>
+
+<style>
+  /* Centered content container — all page content lives inside .main-inner */
+  .main-inner {
+    max-width: var(--container-content);
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  @media (max-width: 520px) {
+    .main-inner {
+      padding: 28px 16px 60px;
+    }
+
+    /* Match the small-screen font/size that used to live in global.css */
+    :global(body) {
+      font-size: 17px;
+    }
+
+    :global(h1) {
+      font-size: 2rem;
+    }
+  }
+</style>
